@@ -1,0 +1,33 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "Compares two configuration files and shows a difference.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ansseii/frontend-project-lvl2.git"
+  },
+  "author": "Ansseii",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ansseii/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/Ansseii/frontend-project-lvl2#readme",
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.1.4",
+    "jest": "^27.5.1"
+  },
+  "dependencies": {
+    "commander": "^9.2.0"
+  }
+}
