@@ -1,7 +1,8 @@
 import fs from 'fs';
 import _ from 'lodash';
+import getParser from './parsers.js';
 
-const readFile = (filepath) => JSON.parse(fs.readFileSync(filepath, 'utf8'));
+const readFile = (filepath, parser) => parser(fs.readFileSync(filepath, 'utf8'));
 
 const statuses = {
   new: '+',
@@ -35,9 +36,10 @@ const buildFormattedDiff = (diffs) => {
   return `{\n${formatted}\n}`;
 };
 
-export default (filepath1, filepath2) => {
-  const obj1 = readFile(filepath1);
-  const obj2 = readFile(filepath2);
+export default (filepath1, filepath2, fileType) => {
+  const parser = getParser(fileType);
+  const obj1 = readFile(filepath1, parser);
+  const obj2 = readFile(filepath2, parser);
   const diff = buildDiff(obj1, obj2);
 
   return buildFormattedDiff(diff);
