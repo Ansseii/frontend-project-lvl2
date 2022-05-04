@@ -1,46 +1,21 @@
 import fs from 'fs';
-import _ from 'lodash';
+import path from 'path';
+import build from './formatters/stylish.js';
 import getParser from './parsers.js';
+import buildDiff from './diffBuilder.js';
 
-const readFile = (filepath, parser) => parser(fs.readFileSync(filepath, 'utf8'));
+const toObject = (filepath) => {
+  const filetype = path.extname(filepath);
+  const parse = getParser(filetype);
+  const content = fs.readFileSync(filepath, 'utf8');
 
-const statuses = {
-  new: '+',
-  removed: '-',
-  identity: ' ',
+  return parse(content);
 };
 
-const buildDiff = (obj1, obj2) => {
-  const keys = _.union(Object.keys(obj1), Object.keys(obj2)).sort();
-
-  return keys.reduce((acc, key) => {
-    if (_.has(obj1, key) && !_.has(obj2, key)) {
-      acc.push({ status: 'removed', key, value: obj1[key] });
-    } else if (!_.has(obj1, key) && _.has(obj2, key)) {
-      acc.push({ status: 'new', key, value: obj2[key] });
-    } else if (obj1[key] !== obj2[key]) {
-      acc.push({ status: 'removed', key, value: obj1[key] });
-      acc.push({ status: 'new', key, value: obj2[key] });
-    } else {
-      acc.push({ status: 'identity', key, value: obj1[key] });
-    }
-    return acc;
-  }, []);
-};
-
-const buildFormattedDiff = (diffs) => {
-  const formatted = diffs
-    .map(({ status, key, value }) => `  ${statuses[status]} ${key}: ${value}`)
-    .join('\n');
-
-  return `{\n${formatted}\n}`;
-};
-
-export default (filepath1, filepath2, fileType) => {
-  const parser = getParser(fileType);
-  const obj1 = readFile(filepath1, parser);
-  const obj2 = readFile(filepath2, parser);
+export default (filepath1, filepath2) => {
+  const obj1 = toObject(filepath1);
+  const obj2 = toObject(filepath2);
   const diff = buildDiff(obj1, obj2);
 
-  return buildFormattedDiff(diff);
+  return build(diff);
 };
