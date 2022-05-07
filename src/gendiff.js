@@ -12,7 +12,7 @@ const toObject = (filepath) => {
   return parse(content);
 };
 
-export default (filepath1, filepath2, formatter) => {
+export default (filepath1, filepath2, formatter = 'stylish') => {
   const obj1 = toObject(filepath1);
   const obj2 = toObject(filepath2);
   const diff = buildDiff(obj1, obj2);
