@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const buildDiff = (before, after) => {
-  const keys = _.union(_.keys(before), _.keys(after)).sort();
+  const keys = _.sortBy(_.union(_.keys(before), _.keys(after)));
 
   return keys.map((key) => {
     const valBefore = before[key];
