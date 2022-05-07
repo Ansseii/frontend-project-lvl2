@@ -8,7 +8,7 @@ const getDelimiter = (depth) => {
 const toString = (data, depth) => {
   if (_.isPlainObject(data)) {
     const delimiter = getDelimiter(depth);
-    const keys = _.keys(data).sort();
+    const keys = _.sortBy(_.keys(data));
     const lines = keys.map((key) => {
       const updatedVal = toString(data[key], depth + 1);
 
