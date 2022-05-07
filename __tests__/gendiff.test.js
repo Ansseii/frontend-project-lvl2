@@ -5,7 +5,7 @@ import getDiff from '../src/gendiff.js';
 const getFixturePath = (filename, extension) => path.join(process.cwd(), '__fixtures__', `${filename}${extension}`);
 
 const extensions = ['.json', '.yml'];
-const formatters = ['stylish', 'plain'];
+const formatters = ['stylish', 'plain', 'json'];
 
 describe.each(extensions)('diff for extension: %s', (extension) => {
   test.each(formatters)('test formatter: %s', (formatter) => {
